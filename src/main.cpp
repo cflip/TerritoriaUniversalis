@@ -4,7 +4,7 @@
 
 int main()
 {
-	sf::RenderWindow window(sf::VideoMode(1280, 720), "Territorium");
+	sf::RenderWindow window(sf::VideoMode(1280, 720), "Territoria Universalis");
 
 	sf::Texture map_texture;
 	if (!map_texture.loadFromFile("res/map.png"))
