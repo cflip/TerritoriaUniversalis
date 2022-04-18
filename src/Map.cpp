@@ -38,10 +38,16 @@ void Map::AddCountry()
 	}
 
 	int spawn_x = -1, spawn_y = -1;
+	int spawn_tries = 0;
 	srand(time(nullptr));
 	while (GetTileType(spawn_x, spawn_y) != 1) {
 		spawn_x = rand() % m_width;
 		spawn_y = rand() % m_height;
+		spawn_tries++;
+		if (spawn_tries >= 40) {
+			std::cout << "Took too many tries to find a suitable spawn, aborting...\n";
+			return;
+		}
 	}
 
 	m_tiles[spawn_x + spawn_y * m_width] = id_counter + 2;
