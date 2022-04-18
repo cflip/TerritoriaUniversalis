@@ -9,6 +9,9 @@ find_package(SFML COMPONENTS system window graphics CONFIG REQUIRED)
 
 set(SOURCES
 	src/main.cpp
+    src/Country.h
+    src/Map.cpp
+    src/Map.h
 )
 
 add_executable(Territorium ${SOURCES})

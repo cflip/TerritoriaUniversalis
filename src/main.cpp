@@ -1,5 +1,7 @@
 #include <SFML/Graphics.hpp>
 
+#include "Map.h"
+
 int main()
 {
 	sf::RenderWindow window(sf::VideoMode(1280, 720), "Territorium");
@@ -7,7 +9,12 @@ int main()
 	sf::Texture map_texture;
 	if (!map_texture.loadFromFile("res/map.png"))
 		return 1;
+
+	sf::Image map_image = map_texture.copyToImage();
 	sf::Sprite sprite(map_texture);
+
+	Map map(map_image);
+	map.AddCountry();
 
 	float zoom = 2.f;
 	int drag_x = 0, drag_y = 0;
@@ -46,7 +53,10 @@ int main()
 				break;
 			}
 		}
-		sprite.setPosition(pan_x, pan_y);
+
+		map.Draw(map_image);
+		map_texture.loadFromImage(map_image);
+		sprite.setPosition((float)pan_x, (float)pan_y);
 		sprite.setScale(zoom, zoom);
 
 		window.clear({ 0, 8, 4 });
