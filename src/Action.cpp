@@ -12,8 +12,8 @@ ExpandTerritoryAction::ExpandTerritoryAction(Country& country, Map& map, sf::Vec
 void ExpandTerritoryAction::Tick()
 {
 	const auto check_and_add_tile_to_queue = [&](sf::Vector2i pos) {
-		if (m_map.GetTileType(pos.x, pos.y) == 1) {
-			m_map.SetTileOwner(pos.x, pos.y, m_country.Id() + 2);
+		if (m_map.IsFreeTile(pos.x, pos.y)) {
+			m_map.SetTileOwner(pos.x, pos.y, m_country.Id());
 			m_position_queue.push_back(pos);
 		}
 	};
