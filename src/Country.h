@@ -4,8 +4,9 @@
 
 class Country {
 public:
-	sf::Color Colour() { return m_colour; }
+	Country();
 
+	sf::Color Colour() { return m_colour; }
 private:
-	sf::Color m_colour { 255, 127, 255 };
+	sf::Color m_colour;
 };
