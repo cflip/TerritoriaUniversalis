@@ -13,8 +13,20 @@ Map::Map(sf::Image& terrain_map)
 
 	for (int i = 0; i < m_width * m_height; i++)
 		m_tiles[i] = terrain_map.getPixelsPtr()[i * 4] == 0 ? 0 : 1;
+}
 
-	m_tiles[10 + 10 * m_width] = 2;
+
+uint8_t Map::GetTileType(int x, int y)
+{
+	if (x >= 0 && x < m_width && y >= 0 && y < m_height)
+		return m_tiles[x + y * m_width];
+	return 0;
+}
+
+void Map::SetTileOwner(int x, int y, int id)
+{
+	if (x >= 0 && x < m_width && y >= 0 && y < m_height)
+		m_tiles[x + y * m_width] = id;
 }
 
 void Map::AddCountry()
@@ -24,7 +36,23 @@ void Map::AddCountry()
 		std::cout << "Can't add any more countries!\n";
 		return;
 	}
-	m_country_map.emplace(id_counter++, std::make_unique<Country>());
+
+	int spawn_x = -1, spawn_y = -1;
+	srand(time(nullptr));
+	while (GetTileType(spawn_x, spawn_y) != 1) {
+		spawn_x = rand() % m_width;
+		spawn_y = rand() % m_height;
+	}
+
+	m_tiles[spawn_x + spawn_y * m_width] = id_counter + 2;
+	m_country_map.emplace(id_counter, std::make_unique<Country>(id_counter));
+	m_country_map[id_counter++]->ExpandTerritory(*this, spawn_x, spawn_y);
+}
+
+void Map::Tick()
+{
+	for (auto& country : m_country_map)
+		country.second->Tick();
 }
 
 void Map::Draw(sf::Image& out_image)

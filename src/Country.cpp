@@ -1,6 +1,19 @@
 #include "Country.h"
 
+#include "Action.h"
 #include <cstdlib>
+#include <algorithm>
 
-Country::Country()
-	: m_colour({ static_cast<sf::Uint8>(rand() % 255), static_cast<sf::Uint8>(rand() % 255), static_cast<sf::Uint8>(rand() % 255) }) { }
+Country::Country(int id)
+	: m_id(id), m_colour({ static_cast<sf::Uint8>(rand() % 255), static_cast<sf::Uint8>(rand() % 255), static_cast<sf::Uint8>(rand() % 255) }) { }
+
+void Country::ExpandTerritory(Map& map, int x, int y)
+{
+	m_actions.emplace_back(ExpandTerritoryAction(*this, map, { x, y }));
+}
+
+void Country::Tick()
+{
+	for (auto& action : m_actions)
+		action.Tick();
+}

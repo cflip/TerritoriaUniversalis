@@ -9,6 +9,8 @@ find_package(SFML COMPONENTS system window graphics CONFIG REQUIRED)
 
 set(SOURCES
 	src/main.cpp
+    src/Action.cpp
+    src/Action.h
     src/Country.cpp
     src/Country.h
     src/Map.cpp

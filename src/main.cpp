@@ -5,6 +5,7 @@
 int main()
 {
 	sf::RenderWindow window(sf::VideoMode(1280, 720), "Territoria Universalis");
+	window.setFramerateLimit(60);
 	sf::View view = window.getDefaultView();
 
 	sf::Texture map_texture;
@@ -20,6 +21,10 @@ int main()
 	int drag_x = 0, drag_y = 0;
 	bool is_dragging = false;
 
+	sf::Clock clock;
+	constexpr int TicksPerSecond = 10;
+	constexpr float MillisPerTick = 1000.f / (float)TicksPerSecond;
+	float unprocessed_ticks = 0;
 	sf::Event event;
 	while (window.isOpen()) {
 		while (window.pollEvent(event)) {
@@ -59,6 +64,13 @@ int main()
 				window.close();
 				break;
 			}
+		}
+		unprocessed_ticks += (float)clock.getElapsedTime().asMilliseconds() / MillisPerTick;
+		clock.restart();
+
+		while (unprocessed_ticks >= 1) {
+			map.Tick();
+			unprocessed_ticks -= 1;
 		}
 
 		map.Draw(map_image);

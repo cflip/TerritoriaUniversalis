@@ -11,7 +11,11 @@ public:
 	explicit Map(sf::Image& terrain_map);
 	~Map() { delete m_tiles; }
 
+	uint8_t GetTileType(int x, int y);
+	void SetTileOwner(int x, int y, int id);
 	void AddCountry();
+
+	void Tick();
 	void Draw(sf::Image&);
 
 private:
