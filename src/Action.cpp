@@ -11,17 +11,15 @@ ExpandTerritoryAction::ExpandTerritoryAction(Country& country, Map& map, sf::Vec
 
 void ExpandTerritoryAction::Tick()
 {
+	if (m_complete)
+		return;
+
 	const auto check_and_add_tile_to_queue = [&](sf::Vector2i pos) {
 		if (m_map.IsFreeTile(pos.x, pos.y)) {
 			m_map.SetTileOwner(pos.x, pos.y, m_country.Id());
 			m_position_queue.push_back(pos);
 		}
 	};
-
-	if (m_position_queue.empty() || m_complete) {
-		m_complete = true;
-		return;
-	}
 
 	auto old_queue = m_position_queue;
 	m_position_queue.clear();
@@ -31,4 +29,7 @@ void ExpandTerritoryAction::Tick()
 		check_and_add_tile_to_queue({ pos.x, pos.y + 1 });
 		check_and_add_tile_to_queue({ pos.x, pos.y - 1 });
 	}
+
+	if (m_position_queue.empty())
+		m_complete = true;
 }
