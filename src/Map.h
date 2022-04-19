@@ -3,10 +3,10 @@
 #include "Country.h"
 #include <SFML/Graphics/Image.hpp>
 #include <cstdint>
-#include <map>
+#include <vector>
 #include <memory>
 
-#define NO_OWNER 0
+#define NO_OWNER 1337
 
 enum class TerrainType : uint8_t {
 	Water,
@@ -38,5 +38,5 @@ private:
 	unsigned m_width, m_height;
 	enum TerrainType* m_terrain_map;
 	uint16_t* m_country_map;
-	std::map<unsigned, std::unique_ptr<Country>> m_countries;
+	std::vector<std::unique_ptr<Country>> m_countries;
 };

@@ -13,7 +13,9 @@ Map::Map(sf::Image& terrain_map)
 	m_terrain_map = new enum TerrainType[m_width * m_height];
 	m_country_map = new uint16_t[m_width * m_height];
 
-	memset(m_country_map, NO_OWNER, (m_width * m_height) * 2);
+	for (int i = 0; i < m_width * m_height; i++)
+		m_country_map[i] = NO_OWNER;
+
 	for (int y = 0; y < m_height; y++)
 		for (int x = 0; x < m_width; x++)
 			m_terrain_map[x + y * m_width] = terrain_map.getPixel(x, y) == sf::Color::White ? TerrainType::Ground : TerrainType::Water;
@@ -41,7 +43,7 @@ void Map::SetTileOwner(int x, int y, int id)
 
 void Map::AddCountry()
 {
-	static uint16_t id_counter = 1;
+	static uint16_t id_counter = 0;
 
 	int spawn_x = -1, spawn_y = -1;
 	int spawn_tries = 0;
@@ -57,8 +59,8 @@ void Map::AddCountry()
 	}
 
 	SetTileOwner(spawn_x, spawn_y, id_counter);
-	m_countries.emplace(id_counter, std::make_unique<Country>(id_counter));
-	m_countries[id_counter]->ExpandTerritory(*this, spawn_x, spawn_y);
+	auto& new_country = m_countries.emplace_back(std::make_unique<Country>(id_counter));
+	new_country->ExpandTerritory(*this, spawn_x, spawn_y);
 
 	id_counter++;
 }
@@ -66,7 +68,7 @@ void Map::AddCountry()
 void Map::Tick()
 {
 	for (auto& country : m_countries)
-		country.second->Tick();
+		country->Tick();
 }
 
 void Map::Draw(sf::Image& out_image)
@@ -76,7 +78,7 @@ void Map::Draw(sf::Image& out_image)
 			sf::Color colour;
 
 			if (TileOwner(x, y) == NO_OWNER)
-				m_terrain_map[x + y * m_width] == TerrainType::Water ? colour = { 0, 0, 255 } : colour = { 0, 255, 0 };
+				m_terrain_map[x + y * m_width] == TerrainType::Water ? colour = sf::Color::Blue : colour = sf::Color::Green;
 			else
 				colour = m_countries[m_country_map[x + y * m_width]]->Colour();
 
