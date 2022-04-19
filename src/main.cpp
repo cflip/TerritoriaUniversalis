@@ -20,6 +20,7 @@ int main()
 
 	int drag_x = 0, drag_y = 0;
 	bool is_dragging = false;
+	float zoomFactor = 0.25f;
 
 	sf::Clock clock;
 	constexpr int TicksPerSecond = 10;
@@ -42,21 +43,23 @@ int main()
 				break;
 			case sf::Event::MouseMoved:
 				if (is_dragging) {
-					// TODO: This should take into account the current zoom level
 					float delta_x = event.mouseMove.x - drag_x;
 					float delta_y = event.mouseMove.y - drag_y;
 					drag_x = event.mouseMove.x;
 					drag_y = event.mouseMove.y;
 
-					view.move(-delta_x, -delta_y);
+					view.move(-delta_x * 4 * zoomFactor, -delta_y * 4 * zoomFactor);
 					window.setView(view);
 				}
 				break;
-			case sf::Event::MouseWheelScrolled: {
-				// TODO: This should zoom relative to the mouse pointer's location,
-				//       rather than the center of the screen.
-				float delta = event.mouseWheelScroll.delta + 1.5f;
-				view.zoom(1.f / delta);
+			case sf::Event::MouseWheelMoved: {
+				if (event.mouseWheel.delta < 0) {
+					view.zoom(2.0f);
+					zoomFactor *= 2.0f;
+				} else {
+					view.zoom(0.5f);
+					zoomFactor *= 0.5f;
+				}
 				window.setView(view);
 				break;
 			}
