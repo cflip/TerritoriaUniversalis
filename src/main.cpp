@@ -66,6 +66,10 @@ int main()
 				window.setView(view);
 				break;
 			}
+			case sf::Event::Resized:
+				view.setSize((float)event.size.width / zoom, (float)event.size.height / zoom);
+				window.setView(view);
+				break;
 			case sf::Event::Closed:
 				window.close();
 				break;
