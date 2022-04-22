@@ -1,5 +1,7 @@
-#include "Map.h"
 #include <SFML/Graphics.hpp>
+
+#include "Map.h"
+
 int main()
 {
 	int country_population = 1;
@@ -52,7 +54,7 @@ int main()
 					drag_x = event.mouseMove.x;
 					drag_y = event.mouseMove.y;
 
-					view.move(-delta_x  * zoomFactor, -delta_y * zoomFactor);
+					view.move(-delta_x * 4 * zoomFactor, -delta_y * 4 * zoomFactor);
 					window.setView(view);
 				}
 				break;

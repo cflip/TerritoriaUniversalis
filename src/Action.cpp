@@ -22,8 +22,7 @@ void ExpandTerritoryAction::Tick()
 				m_position_queue.push_back(pos);
 		} };
 
-	auto old_queue
-		= m_position_queue;
+	auto old_queue = m_position_queue;
 	m_position_queue.clear();
 	for (auto pos : old_queue) {
 		check_and_add_tile_to_queue({ pos.x + 1, pos.y });
