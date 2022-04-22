@@ -4,7 +4,7 @@
 
 int main()
 {
-	int country_population = 1;
+	constexpr int NumberOfCountries = 10;
 
 	sf::RenderWindow window(sf::VideoMode(1280, 720), "Territoria Universalis");
 	window.setFramerateLimit(60);
@@ -19,7 +19,7 @@ int main()
 
 	Map map(map_image);
 
-	for (int j = 0; j < country_population; j++) {
+	for (int j = 0; j < NumberOfCountries; j++) {
 		map.AddCountry();
 	}
 
@@ -33,7 +33,6 @@ int main()
 	float unprocessed_ticks = 0;
 	sf::Event event;
 	while (window.isOpen()) {
-
 		while (window.pollEvent(event)) {
 			switch (event.type) {
 			case sf::Event::MouseButtonPressed:
