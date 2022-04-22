@@ -11,11 +11,8 @@ class Map;
 class Country {
 public:
 	Country(int id);
-	int pixels = 1;
-	int population = 100;
 
 	void ExpandTerritory(Map& map, int x, int y);
-	void populationHandler(int input);
 	void Tick();
 
 	sf::Color Colour() const {
@@ -26,7 +23,13 @@ public:
 	int Id() const { return m_id; }
 
 private:
+	// We'll just make this a friend class for now, I'll come up with nicer infrastructure later
+	friend class ExpandTerritoryAction;
+
 	std::vector<ExpandTerritoryAction> m_actions;
 	sf::Color m_colour;
 	int m_id;
+
+	int m_area { 1 };
+	int m_population { 100 };
 };
