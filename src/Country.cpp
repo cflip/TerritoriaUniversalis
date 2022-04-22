@@ -1,7 +1,6 @@
 #include "Country.h"
 
 #include "Action.h"
-#include <cstdlib>
 #include <algorithm>
 
 Country::Country(int id)
@@ -15,5 +14,7 @@ void Country::ExpandTerritory(Map& map, int x, int y)
 void Country::Tick()
 {
 	for (auto& action : m_actions)
-		action.Tick();
+		if (m_population > 100)
+			action.Tick();
+	m_population += (int)((float)m_area * 0.05f + 1);
 }

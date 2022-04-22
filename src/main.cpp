@@ -4,6 +4,8 @@
 
 int main()
 {
+	constexpr int NumberOfCountries = 10;
+
 	sf::RenderWindow window(sf::VideoMode(1280, 720), "Territoria Universalis");
 	window.setFramerateLimit(60);
 	sf::View view = window.getDefaultView();
@@ -16,7 +18,10 @@ int main()
 	sf::Sprite sprite(map_texture);
 
 	Map map(map_image);
-	map.AddCountry();
+
+	for (int j = 0; j < NumberOfCountries; j++) {
+		map.AddCountry();
+	}
 
 	int drag_x = 0, drag_y = 0;
 	bool is_dragging = false;
