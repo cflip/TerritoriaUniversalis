@@ -11,8 +11,11 @@ class Map;
 class Country {
 public:
 	Country(int id);
+	int pixels = 1;
+	int population = 100;
 
 	void ExpandTerritory(Map& map, int x, int y);
+	void populationHandler(int input);
 	void Tick();
 
 	sf::Color Colour() const {

@@ -37,8 +37,9 @@ uint16_t Map::TileOwner(int x, int y) const
 
 void Map::SetTileOwner(int x, int y, int id)
 {
-	if (InBounds(x, y))
+	if (InBounds(x, y)) {
 		m_country_map[x + y * m_width] = id;
+	}
 }
 
 void Map::AddCountry()

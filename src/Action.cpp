@@ -16,12 +16,14 @@ void ExpandTerritoryAction::Tick()
 
 	const auto check_and_add_tile_to_queue = [&](sf::Vector2i pos) {
 		if (m_map.IsFreeTile(pos.x, pos.y)) {
-			m_map.SetTileOwner(pos.x, pos.y, m_country.Id());
-			m_position_queue.push_back(pos);
-		}
-	};
+				m_country.pixels += 1;
+				m_country.population =- int(25); // TODO - Population subtracts per tick, not per pixel claimed, this must be fixed by getting (array value / population) (idk how these arrays are laid out).
+				m_map.SetTileOwner(pos.x, pos.y, m_country.Id());
+				m_position_queue.push_back(pos);
+		} };
 
-	auto old_queue = m_position_queue;
+	auto old_queue
+		= m_position_queue;
 	m_position_queue.clear();
 	for (auto pos : old_queue) {
 		check_and_add_tile_to_queue({ pos.x + 1, pos.y });

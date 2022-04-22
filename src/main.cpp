@@ -1,9 +1,9 @@
-#include <SFML/Graphics.hpp>
-
 #include "Map.h"
-
+#include <SFML/Graphics.hpp>
 int main()
 {
+	int country_population = 1;
+
 	sf::RenderWindow window(sf::VideoMode(1280, 720), "Territoria Universalis");
 	window.setFramerateLimit(60);
 	sf::View view = window.getDefaultView();
@@ -16,7 +16,10 @@ int main()
 	sf::Sprite sprite(map_texture);
 
 	Map map(map_image);
-	map.AddCountry();
+
+	for (int j = 0; j < country_population; j++) {
+		map.AddCountry();
+	}
 
 	int drag_x = 0, drag_y = 0;
 	bool is_dragging = false;
@@ -28,6 +31,7 @@ int main()
 	float unprocessed_ticks = 0;
 	sf::Event event;
 	while (window.isOpen()) {
+
 		while (window.pollEvent(event)) {
 			switch (event.type) {
 			case sf::Event::MouseButtonPressed:
@@ -48,7 +52,7 @@ int main()
 					drag_x = event.mouseMove.x;
 					drag_y = event.mouseMove.y;
 
-					view.move(-delta_x * 4 * zoomFactor, -delta_y * 4 * zoomFactor);
+					view.move(-delta_x  * zoomFactor, -delta_y * zoomFactor);
 					window.setView(view);
 				}
 				break;
