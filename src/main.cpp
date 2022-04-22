@@ -25,7 +25,7 @@ int main()
 
 	int drag_x = 0, drag_y = 0;
 	bool is_dragging = false;
-	float zoomFactor = 0.25f;
+	float zoom = 1.f;
 
 	sf::Clock clock;
 	constexpr int TicksPerSecond = 10;
@@ -53,18 +53,16 @@ int main()
 					drag_x = event.mouseMove.x;
 					drag_y = event.mouseMove.y;
 
-					view.move(-delta_x * 4 * zoomFactor, -delta_y * 4 * zoomFactor);
+					view.move(-delta_x / zoom, -delta_y / zoom);
 					window.setView(view);
 				}
 				break;
 			case sf::Event::MouseWheelMoved: {
-				if (event.mouseWheel.delta < 0) {
-					view.zoom(2.0f);
-					zoomFactor *= 2.0f;
-				} else {
-					view.zoom(0.5f);
-					zoomFactor *= 0.5f;
-				}
+				zoom += event.mouseWheel.delta / 2.f;
+				if (zoom < 0.25f) zoom = 0.25f;
+
+				auto window_size = window.getSize();
+				view.setSize((float)window_size.x / zoom, (float)window_size.y / zoom);
 				window.setView(view);
 				break;
 			}
