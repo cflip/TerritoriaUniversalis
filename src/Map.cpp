@@ -59,8 +59,8 @@ void Map::AddCountry()
 	}
 
 	SetTileOwner(spawn_x, spawn_y, id_counter);
-	auto& new_country = m_countries.emplace_back(std::make_unique<Country>(id_counter));
-	new_country->ExpandTerritory(*this, spawn_x, spawn_y);
+	sf::Vector2i start_pos = { spawn_x, spawn_y };
+	auto& new_country = m_countries.emplace_back(std::make_unique<Country>(id_counter, *this, start_pos));
 
 	id_counter++;
 }

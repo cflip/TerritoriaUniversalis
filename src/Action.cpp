@@ -3,10 +3,9 @@
 #include "Country.h"
 #include "Map.h"
 
-ExpandTerritoryAction::ExpandTerritoryAction(Country* country, Map* map, sf::Vector2i start_pos)
-	: m_country(country), m_map(map)
+ExpandTerritoryAction::ExpandTerritoryAction(Country* country, Map* map, std::vector<sf::Vector2i>& start_positions, int target)
+	: m_country(country), m_map(map), m_position_queue(start_positions), m_target(target)
 {
-	m_position_queue.push_back(start_pos);
 }
 
 void ExpandTerritoryAction::Tick()
@@ -15,7 +14,7 @@ void ExpandTerritoryAction::Tick()
 		return;
 
 	const auto check_and_add_tile_to_queue = [&](sf::Vector2i pos) {
-		if (m_map->IsFreeTile(pos.x, pos.y)) {
+		if (m_map->TileOwner(pos.x, pos.y) == m_target && m_map->TerrainType(pos.x, pos.y) == TerrainType::Ground) {
 			m_country->m_area++;
 			m_country->m_population--;
 			m_map->SetTileOwner(pos.x, pos.y, m_country->Id());

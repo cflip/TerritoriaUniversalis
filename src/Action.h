@@ -8,7 +8,7 @@ class Map;
 
 class ExpandTerritoryAction {
 public:
-	ExpandTerritoryAction(Country* m_country, Map* map, sf::Vector2i start_pos);
+	ExpandTerritoryAction(Country* m_country, Map* map, std::vector<sf::Vector2i>& start_positions, int target);
 
 	bool IsComplete() const { return m_complete; }
 	void Tick();
@@ -19,4 +19,5 @@ private:
 	Map* m_map;
 
 	bool m_complete { false };
+	int m_target;
 };
