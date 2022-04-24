@@ -15,11 +15,7 @@ public:
 	void ExpandTerritory(Map& map, int x, int y);
 	void Tick();
 
-	sf::Color Colour() const {
-		if (m_actions[0].IsComplete())
-			return m_colour;
-		return sf::Color::Yellow;
-	}
+	sf::Color Colour() const { return m_colour; }
 	int Id() const { return m_id; }
 
 private:
